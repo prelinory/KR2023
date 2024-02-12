@@ -1,0 +1,131 @@
+{% load my_tags %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'main/css/bootstrap.css' %}" />
+
+{% if my_error == False %}
+
+
+
+{% if iterations %}
+<section class="vh-100 bg-image">
+
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-center mb-5">Результаты расчета</h2>
+
+              <h4 class="text-center mb-3">Система уравнений:</h4>
+
+              {% for x in a %}
+              <div class="row">
+                {% for j in x %}
+                <div class="col-sm" style="padding-top: 1rem;
+                  padding-bottom: 1rem;
+                  background-color: rgba(86, 61, 124, .15);
+                  border: 1px solid rgba(86, 61, 124, .2);">
+                  {{ j }}
+                </div>
+                {% endfor %}
+                <div class="col-sm" style="padding-top: 1rem;
+                  padding-bottom: 1rem;
+                  background-color: rgba(86, 61, 124, .15);
+                  border: 1px solid rgba(86, 61, 124, .2);">
+                  {{ y|my_tags:forloop.counter0 }}
+                </div>
+
+                <br>
+              </div>
+              {% endfor %}
+
+              <h4 class="text-center mb-3 pt-3">Решение системы уравнений:</h4>
+
+              {% for el in x %}
+              <div class="row">
+                <div class="col-sm" style="padding-top: 1rem;
+                    padding-bottom: 1rem;
+                    background-color: rgba(65, 210, 87, 0.15);
+                    border: 1px solid rgba(86, 61, 124, .2);">
+                  x[{{ forloop.counter }}] = {{ el }}
+                </div>
+
+              </div>
+              {% endfor %}
+
+              <h4 class="text-center mb-3 pt-3">Количество итераций: {{iterations}}</h4>
+
+              <div class="d-flex justify-content-center">
+                <a href="{% url 'input_one' %}">
+                  <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Новый
+                    расчет</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+{% else %}
+<section class="vh-100 bg-image">
+
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+
+              <form method="post">
+                {% csrf_token %}
+
+                <div class="form-outline mb-4">
+                  {{form.as_p}}
+                </div>
+
+                <div class="d-flex justify-content-center">
+                  <button type="submit"
+                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Рассчитать</button>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+{% else %}
+<section class="vh-100 bg-image">
+
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-center mb-5">Вы ввели не диагонально преобладающая матрица. Введите новые значения</h2>
+
+              <div class="d-flex justify-content-center">
+                <a href="{% url 'input_one' %}">
+                  <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Новый
+                    расчет</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endif %}
